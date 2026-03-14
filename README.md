@@ -20,6 +20,7 @@ Current Firebase Apple SDK compatibility floor: `iOS 15.0`.
 - `set_crashlytics_custom_key(name: String, value: Variant)`
 - `log_crashlytics_message(message: String)`
 - `record_nonfatal(message: String, details: Dictionary = {})`
+- `trigger_test_crash()`
 
 Signals:
 
@@ -85,3 +86,4 @@ Startup responsibility split:
 - Firebase vendor-framework symbolication may still depend on vendor-provided symbols and can produce separate non-blocking warnings.
 - Crashlytics helper scripts are copied into `ios/plugins/firebase_plugin/crashlytics_tools/` for archive-time or manual symbol upload workflows.
 - iOS runtime startup has been validated without the earlier FirebaseCore default-app startup warning after moving bootstrap earlier in native initialization.
+- A native `trigger_test_crash()` hook is included for controlled Crashlytics validation from the consuming project's debug UI.

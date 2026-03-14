@@ -10,3 +10,4 @@
 - Raised the Firebase iOS minimum target to `15.0`.
 - Added native early-start bootstrap so iOS runtime starts without the previous FirebaseCore default-app startup warning.
 - Clarified that Xcode-project Crashlytics build-phase wiring belongs in the consuming-project export patch, not the source plugin payload.
+- Added a native `trigger_test_crash()` API so the consuming project can trigger a real Crashlytics fatal test from its debug UI.

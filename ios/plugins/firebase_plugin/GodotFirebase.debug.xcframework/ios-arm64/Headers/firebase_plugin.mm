@@ -179,6 +179,7 @@ static void RunOnMainSync(dispatch_block_t block) {
 - (void)setCrashlyticsCustomKey:(NSString *)name value:(NSObject *)value;
 - (void)logCrashlyticsMessage:(NSString *)message;
 - (void)recordNonfatal:(NSString *)message details:(NSDictionary<NSString *, id> *)details;
+- (void)triggerTestCrash;
 @end
 
 FirebasePlugin *FirebasePlugin::instance = nullptr;
@@ -335,6 +336,19 @@ FirebasePlugin *FirebasePlugin::instance = nullptr;
 	});
 }
 
+- (void)triggerTestCrash {
+	if (![self ensureConfigured]) {
+		return;
+	}
+	RunOnMainSync(^{
+		FIRCrashlytics *crashlytics = [FIRCrashlytics crashlytics];
+		[crashlytics logWithFormat:@"%@", @"GodotFirebase trigger_test_crash invoked"];
+		[crashlytics setCustomValue:@"debug_menu" forKey:@"fatal_test_origin"];
+		volatile int *crash_ptr = (volatile int *)NULL;
+		*crash_ptr = 1337;
+	});
+}
+
 @end
 
 FirebasePlugin::FirebasePlugin() {
@@ -427,6 +441,17 @@ void FirebasePlugin::recordNonfatal(String message, Dictionary details) {
 	record_nonfatal(message, details);
 }
 
+void FirebasePlugin::trigger_test_crash() {
+	if (bridge == nil) {
+		return;
+	}
+	[bridge triggerTestCrash];
+}
+
+void FirebasePlugin::triggerTestCrash() {
+	trigger_test_crash();
+}
+
 void FirebasePlugin::notify_firebase_ready() {
 	emit_signal(FIREBASE_READY_SIGNAL);
 }
@@ -450,6 +475,8 @@ void FirebasePlugin::_bind_methods() {
 	ClassDB::bind_method("logCrashlyticsMessage", &FirebasePlugin::logCrashlyticsMessage);
 	ClassDB::bind_method("record_nonfatal", &FirebasePlugin::record_nonfatal, DEFVAL(Dictionary()));
 	ClassDB::bind_method("recordNonfatal", &FirebasePlugin::recordNonfatal, DEFVAL(Dictionary()));
+	ClassDB::bind_method("trigger_test_crash", &FirebasePlugin::trigger_test_crash);
+	ClassDB::bind_method("triggerTestCrash", &FirebasePlugin::triggerTestCrash);
 
 	ADD_SIGNAL(MethodInfo(FIREBASE_READY_SIGNAL));
 	ADD_SIGNAL(MethodInfo(FIREBASE_ERROR_SIGNAL, PropertyInfo(Variant::INT, "code"), PropertyInfo(Variant::STRING, "message")));

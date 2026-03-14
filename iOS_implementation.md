@@ -34,6 +34,14 @@ The bridge sanitizes:
 
 This keeps the Godot side simple and avoids coupling the game project to Firebase naming edge cases.
 
+## Runtime Test Hooks
+
+The native bridge now also exposes:
+
+- `trigger_test_crash()`
+
+This is intended for controlled debug validation of Crashlytics fatal-ingestion flow from the consuming project's in-app debug UI.
+
 ## Crashlytics / dSYM Handling
 
 ### Automatic path

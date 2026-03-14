@@ -40,6 +40,8 @@ public:
 	void logCrashlyticsMessage(String message);
 	void record_nonfatal(String message, Dictionary details = Dictionary());
 	void recordNonfatal(String message, Dictionary details = Dictionary());
+	void trigger_test_crash();
+	void triggerTestCrash();
 
 	void notify_firebase_ready();
 	void notify_firebase_error(int code, const String &message);
