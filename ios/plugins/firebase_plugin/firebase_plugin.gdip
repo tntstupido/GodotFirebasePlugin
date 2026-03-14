@@ -1,0 +1,43 @@
+[config]
+name="GodotFirebase"
+binary="GodotFirebase.xcframework"
+use_swift_runtime=true
+initialization="init_firebase_plugin"
+deinitialization="deinit_firebase_plugin"
+
+[dependencies]
+linked=[]
+embedded=[
+	"FBLPromises.xcframework",
+	"FirebaseAnalytics.xcframework",
+	"FirebaseCore.xcframework",
+	"FirebaseCoreExtension.xcframework",
+	"FirebaseCoreInternal.xcframework",
+	"FirebaseCrashlytics.xcframework",
+	"FirebaseInstallations.xcframework",
+	"FirebaseRemoteConfigInterop.xcframework",
+	"FirebaseSessions.xcframework",
+	"GoogleAdsOnDeviceConversion.xcframework",
+	"GoogleAppMeasurement.xcframework",
+	"GoogleAppMeasurementIdentitySupport.xcframework",
+	"GoogleDataTransport.xcframework",
+	"GoogleUtilities.xcframework",
+	"Promises.xcframework",
+	"nanopb.xcframework"
+]
+system=[
+	"Foundation.framework",
+	"Security.framework",
+	"SystemConfiguration.framework",
+	"UIKit.framework"
+]
+files=[]
+files=[
+	"crashlytics_tools/run",
+	"crashlytics_tools/upload-symbols"
+]
+linker_flags=[
+	"-ObjC"
+]
+
+[plist]

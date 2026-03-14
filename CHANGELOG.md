@@ -1,0 +1,9 @@
+# Changelog
+
+## 2026-03-14
+
+- Added initial `GodotFirebase` iOS source plugin.
+- Added Firebase Analytics + Crashlytics bridge methods and signals.
+- Added xcframework build script with true debug/release outputs.
+- Added Firebase Apple SDK fetch helper and packaged payload release helper.
+- Added Crashlytics helper-script packaging and dSYM workflow documentation.
