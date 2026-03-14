@@ -44,6 +44,23 @@ VENDOR_XCFRAMEWORKS=(
 	"${FIREBASE_SDK_DIR}/FirebaseCrashlytics/Promises.xcframework"
 )
 
+sanitize_vendor_xcframework() {
+	local xcframework_path="$1"
+	find "${xcframework_path}" -type d -name "_CodeSignature" -prune -exec rm -rf {} +
+	xattr -cr "${xcframework_path}" 2>/dev/null || true
+
+	local framework_dir
+	while IFS= read -r framework_dir; do
+		local parent_dir
+		parent_dir="$(basename "$(dirname "${framework_dir}")")"
+		case "${parent_dir}" in
+			ios-arm64|ios-arm64_x86_64-simulator)
+				codesign --force --sign - "${framework_dir}"
+				;;
+		esac
+	done < <(find "${xcframework_path}" -type d -name "*.framework")
+}
+
 rm -rf "${BUILD_DIR}"
 mkdir -p \
 	"${BUILD_DIR}/debug/iphoneos" \
@@ -120,6 +137,7 @@ build_static_lib() {
 		-isysroot "${sdk_path}" \
 		"${min_flag}" \
 		"${COMMON_GODOT_INCLUDES[@]}" \
+		"${framework_flags[@]}" \
 		-c "${SRC_DIR}/firebase_plugin_bootstrap.mm" \
 		-o "${slice_dir}/firebase_plugin_bootstrap.o"
 
@@ -129,10 +147,10 @@ build_static_lib() {
 		"${slice_dir}/firebase_plugin_bootstrap.o"
 }
 
-build_static_lib "iphoneos" "${IOS_SDK_PATH}" "arm64" "${BUILD_DIR}/debug/iphoneos" "-miphoneos-version-min=14.0" "-DDEBUG_ENABLED"
-build_static_lib "iphonesimulator" "${SIM_SDK_PATH}" "arm64" "${BUILD_DIR}/debug/iphonesimulator" "-mios-simulator-version-min=14.0" "-DDEBUG_ENABLED"
-build_static_lib "iphoneos" "${IOS_SDK_PATH}" "arm64" "${BUILD_DIR}/release/iphoneos" "-miphoneos-version-min=14.0" ""
-build_static_lib "iphonesimulator" "${SIM_SDK_PATH}" "arm64" "${BUILD_DIR}/release/iphonesimulator" "-mios-simulator-version-min=14.0" ""
+build_static_lib "iphoneos" "${IOS_SDK_PATH}" "arm64" "${BUILD_DIR}/debug/iphoneos" "-miphoneos-version-min=15.0" "-DDEBUG_ENABLED"
+build_static_lib "iphonesimulator" "${SIM_SDK_PATH}" "arm64" "${BUILD_DIR}/debug/iphonesimulator" "-mios-simulator-version-min=15.0" "-DDEBUG_ENABLED"
+build_static_lib "iphoneos" "${IOS_SDK_PATH}" "arm64" "${BUILD_DIR}/release/iphoneos" "-miphoneos-version-min=15.0" ""
+build_static_lib "iphonesimulator" "${SIM_SDK_PATH}" "arm64" "${BUILD_DIR}/release/iphonesimulator" "-mios-simulator-version-min=15.0" ""
 
 xcodebuild -create-xcframework \
 	-library "${BUILD_DIR}/debug/iphoneos/libGodotFirebase.a" \
@@ -150,6 +168,7 @@ xcodebuild -create-xcframework \
 
 for framework_path in "${VENDOR_XCFRAMEWORKS[@]}"; do
 	rsync -a "${framework_path}/" "${OUTPUT_DIR}/$(basename "${framework_path}")/"
+	sanitize_vendor_xcframework "${OUTPUT_DIR}/$(basename "${framework_path}")"
 done
 
 cp "${FIREBASE_SDK_DIR}/FirebaseCrashlytics/run" "${OUTPUT_DIR}/crashlytics_tools/run"

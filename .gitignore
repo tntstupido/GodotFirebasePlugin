@@ -1,3 +1,5 @@
 build/
 *.zip
 third_party/firebase/
+
+ios/plugins/firebase_plugin/**/_CodeSignature/

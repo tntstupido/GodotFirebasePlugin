@@ -2,6 +2,8 @@
 
 iOS Firebase plugin for Godot 4.5.1 that exposes Firebase Analytics and Crashlytics through a single `GodotFirebase` singleton.
 
+Current Firebase Apple SDK compatibility floor: `iOS 15.0`.
+
 ## Scope
 
 - Firebase Analytics event logging
@@ -72,8 +74,14 @@ Sync `ios/plugins/firebase_plugin/` into the Godot game project under the same p
 
 The consuming project must also provide a real `GoogleService-Info.plist`. This plugin intentionally does not ship a placeholder config file.
 
+Startup responsibility split:
+
+- this source plugin owns native Firebase startup/bootstrap and packaged vendor payload hygiene
+- the consuming project owns generated-Xcode patching such as plist injection and Crashlytics build-phase wiring
+
 ## dSYM Notes
 
 - App crashes and statically linked plugin code are symbolicated by the app archive dSYM.
 - Firebase vendor-framework symbolication may still depend on vendor-provided symbols and can produce separate non-blocking warnings.
 - Crashlytics helper scripts are copied into `ios/plugins/firebase_plugin/crashlytics_tools/` for archive-time or manual symbol upload workflows.
+- iOS runtime startup has been validated without the earlier FirebaseCore default-app startup warning after moving bootstrap earlier in native initialization.
