@@ -32,10 +32,6 @@ system=[
 	"UIKit.framework"
 ]
 files=[]
-files=[
-	"crashlytics_tools/run",
-	"crashlytics_tools/upload-symbols"
-]
 linker_flags=[
 	"-ObjC"
 ]
