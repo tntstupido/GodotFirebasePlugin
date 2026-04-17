@@ -68,7 +68,10 @@ mkdir -p \
 	"${BUILD_DIR}/release/iphoneos" \
 	"${BUILD_DIR}/release/iphonesimulator" \
 	"${OUTPUT_DIR}/crashlytics_tools"
-rm -rf "${OUTPUT_DIR}/GodotFirebase.debug.xcframework" "${OUTPUT_DIR}/GodotFirebase.release.xcframework"
+rm -rf \
+	"${OUTPUT_DIR}/GodotFirebase.debug.xcframework" \
+	"${OUTPUT_DIR}/GodotFirebase.release.xcframework" \
+	"${OUTPUT_DIR}/GodotFirebase.xcframework"
 
 framework_dir_for_sdk() {
 	local sdk_name="$1"
@@ -165,6 +168,9 @@ xcodebuild -create-xcframework \
 	-library "${BUILD_DIR}/release/iphonesimulator/libGodotFirebase.a" \
 	-headers "${SRC_DIR}" \
 	-output "${OUTPUT_DIR}/GodotFirebase.release.xcframework"
+
+# Keep a stable base-name artifact expected by `firebase_plugin.gdip`.
+cp -R "${OUTPUT_DIR}/GodotFirebase.release.xcframework" "${OUTPUT_DIR}/GodotFirebase.xcframework"
 
 for framework_path in "${VENDOR_XCFRAMEWORKS[@]}"; do
 	rsync -a "${framework_path}/" "${OUTPUT_DIR}/$(basename "${framework_path}")/"

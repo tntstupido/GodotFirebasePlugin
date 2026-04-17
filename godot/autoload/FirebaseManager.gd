@@ -5,7 +5,7 @@ signal remote_config_updated(success: bool, message: String)
 signal messaging_token_received(token: String)
 signal firebase_error(code: int, message: String)
 
-const SINGLETON_CANDIDATES := ["FirebasePlugin", "firebaseplugin", "Firebase"]
+const SINGLETON_CANDIDATES := ["GodotFirebase", "FirebasePlugin", "firebaseplugin", "Firebase"]
 
 var _plugin: Object = null
 
@@ -13,6 +13,7 @@ func _ready() -> void:
 	for name in SINGLETON_CANDIDATES:
 		if Engine.has_singleton(name):
 			_plugin = Engine.get_singleton(name)
+			print("FirebaseManager: using singleton '%s'." % name)
 			break
 
 	if _plugin == null:

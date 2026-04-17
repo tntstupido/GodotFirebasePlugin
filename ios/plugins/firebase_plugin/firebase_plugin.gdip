@@ -1,6 +1,6 @@
 [config]
 name="FirebasePlugin"
-binary="FirebasePlugin.xcframework"
+binary="GodotFirebase.xcframework"
 initialization="init_firebase_plugin"
 deinitialization="deinit_firebase_plugin"
 use_swift_runtime=true
@@ -8,9 +8,22 @@ use_swift_runtime=true
 [dependencies]
 linked=[]
 embedded=[
+	"FBLPromises.xcframework",
 	"FirebaseAnalytics.xcframework",
+	"FirebaseCore.xcframework",
+	"FirebaseCoreExtension.xcframework",
+	"FirebaseCoreInternal.xcframework",
 	"FirebaseCrashlytics.xcframework",
-	"FirebaseRemoteConfig.xcframework"
+	"FirebaseInstallations.xcframework",
+	"FirebaseRemoteConfigInterop.xcframework",
+	"FirebaseSessions.xcframework",
+	"GoogleAdsOnDeviceConversion.xcframework",
+	"GoogleAppMeasurement.xcframework",
+	"GoogleAppMeasurementIdentitySupport.xcframework",
+	"GoogleDataTransport.xcframework",
+	"GoogleUtilities.xcframework",
+	"Promises.xcframework",
+	"nanopb.xcframework"
 ]
 system=[
 	"Foundation.framework",

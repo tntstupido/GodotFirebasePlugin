@@ -1,12 +1,26 @@
 # iOS Firebase payload
 
-This directory is intentionally a scaffold for v1.
+Required native plugin binaries:
+- GodotFirebase.debug.xcframework
+- GodotFirebase.release.xcframework
+- GodotFirebase.xcframework
 
-Required for full runtime iOS functionality:
-- FirebasePlugin.debug.xcframework
-- FirebasePlugin.release.xcframework
+Required Firebase xcframework dependencies:
+- FBLPromises.xcframework
 - FirebaseAnalytics.xcframework
+- FirebaseCore.xcframework
+- FirebaseCoreExtension.xcframework
+- FirebaseCoreInternal.xcframework
 - FirebaseCrashlytics.xcframework
-- FirebaseRemoteConfig.xcframework
+- FirebaseInstallations.xcframework
+- FirebaseRemoteConfigInterop.xcframework
+- FirebaseSessions.xcframework
+- GoogleAdsOnDeviceConversion.xcframework
+- GoogleAppMeasurement.xcframework
+- GoogleAppMeasurementIdentitySupport.xcframework
+- GoogleDataTransport.xcframework
+- GoogleUtilities.xcframework
+- Promises.xcframework
+- nanopb.xcframework
 
 Messaging/APNs is deferred to v2.
