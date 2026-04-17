@@ -1,5 +1,28 @@
-build/
-*.zip
-third_party/firebase/
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
 
-ios/plugins/firebase_plugin/**/_CodeSignature/
+# Gradle / Kotlin
+.gradle/
+**/.gradle/
+.kotlin/
+**/.kotlin/
+local.properties
+
+# Build outputs
+build/
+**/build/
+dist/
+*.apk
+*.aab
+
+# Godot plugin artifacts (generated)
+godot/addons/firebase_plugin/*.aar
+
+# iOS generated payload binaries (if added later)
+ios/plugins/firebase_plugin/*.xcframework
+ios/plugins/firebase_plugin/*.framework
+
+# Android template AARs copied locally for compileOnly
+android/firebaseplugin/libs/godot-lib.template_*.aar

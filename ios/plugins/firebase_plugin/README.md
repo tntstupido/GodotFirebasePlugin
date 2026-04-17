@@ -1,14 +1,12 @@
-# firebase_plugin
+# iOS Firebase payload
 
-Packaged Godot iOS Firebase plugin payload.
+This directory is intentionally a scaffold for v1.
 
-Contents:
+Required for full runtime iOS functionality:
+- FirebasePlugin.debug.xcframework
+- FirebasePlugin.release.xcframework
+- FirebaseAnalytics.xcframework
+- FirebaseCrashlytics.xcframework
+- FirebaseRemoteConfig.xcframework
 
-- `GodotFirebase.debug.xcframework`
-- `GodotFirebase.release.xcframework`
-- required Firebase Analytics + Crashlytics dependency xcframeworks
-- `crashlytics_tools/run`
-- `crashlytics_tools/upload-symbols`
-- `firebase_plugin.gdip`
-
-The consuming project must still provide a real `GoogleService-Info.plist`.
+Messaging/APNs is deferred to v2.
